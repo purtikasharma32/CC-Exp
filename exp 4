@@ -1,0 +1,63 @@
+Exp 4.1
+AIM:-Given the head of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list.
+The first node is considered odd, and the second node is even, and so on.
+Algorithm:-
+1.Keep two pointers: odd and even.
+2.Connect all odd-index nodes together and all even-index nodes together.
+3.Attach the even list after the odd list.
+4.Return head.
+CODE:-class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if (!head || !head->next) return head;
+        ListNode *odd = head;
+        ListNode *even = head->next;
+        ListNode *evenHead = even;
+        while (even && even->next) {
+            odd->next = even->next;
+            odd = odd->next;
+            even->next = odd->next;
+            even = even->next;
+        }
+        odd->next = evenHead;
+        return head;
+    }
+};
+Exp 4.2
+AIM:-Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+Algorithm:-
+1.Use slow and fast pointers to find the middle of the list.
+2.Reverse the second half of the list.
+3.Compare the first half with the reversed second half.
+4.If any values differ → false.
+5.Otherwise → true.
+CODE:-class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if (head == nullptr || head->next == nullptr)
+            return true;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while (fast != nullptr && fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode* prev = nullptr;
+
+        while (slow != nullptr) {
+            ListNode* next = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = next;
+        }
+        ListNode* left = head;
+        ListNode* right = prev;
+        while (right != nullptr) {
+            if (left->val != right->val)
+                return false;
+            left = left->next;
+            right = right->next;
+        }
+        return true;
+    }
+};
