@@ -1,0 +1,65 @@
+exp 2.1 
+AIM:- There is an integer array nums sorted in ascending order (with distinct values).
+Algorithm: 
+1.Set left = 0, right = n-1.
+2.Find mid.
+3.If nums[mid] == target, return mid.
+4.Check which half is sorted:
+If left half sorted:
+Target in left range → right = mid-1
+Else → left = mid+1
+Else right half sorted:
+Target in right range → left = mid+1
+Else → right = mid-1
+5.If not found, return -1.
+CODE:-class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int left = 0;
+        int right = nums.size() - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target)
+                return mid;
+            // Left half is sorted
+            if (nums[left] <= nums[mid]) {
+                if (nums[left] <= target && target < nums[mid])
+                    right = mid - 1;
+                else
+                    left = mid + 1;
+            }
+            // Right half is sorted
+            else {
+                if (nums[mid] < target && target <= nums[right])
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+        }
+        return -1;
+    }
+};
+exp 2.2 
+AIM:- Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+You must write an algorithm with O(log n) runtime complexity.
+Algorithm:-
+1.Set left = 0, right = n-1.
+2.Find mid.
+3.If nums[mid] == target, return mid.
+4.If nums[mid] < target, move left = mid+1; otherwise right = mid-1.
+5.When loop ends, return left as the insertion index.
+CODE:-class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int left = 0, right = nums.size() - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) return mid;
+            else if (nums[mid] < target) left = mid + 1;
+            else right = mid - 1;
+        }
+        return left;
+    }
+};
+
+ 
